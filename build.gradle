@@ -1,0 +1,34 @@
+plugins {
+    id 'fabric-loom' version '1.7.4'
+}
+group = project.maven_group
+version = project.mod_version
+base { archivesName = project.archives_base_name }
+repositories { mavenCentral() }
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+// GitHub-friendly source distribution: texture and datapack resources are bundled
+// into ONE ZIP file. Gradle expands it into normal resource paths when building.
+// The final JAR therefore contains every original asset at its expected location.
+processResources {
+    inputs.property 'version', project.version
+    inputs.file('src/main/resources/sift-content.zip')
+    exclude 'sift-content.zip'
+    from(zipTree('src/main/resources/sift-content.zip')) {
+        include 'assets/**'
+        include 'data/**'
+    }
+    filesMatching('fabric.mod.json') { expand 'version': project.version }
+}
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+    options.encoding = 'UTF-8'
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}

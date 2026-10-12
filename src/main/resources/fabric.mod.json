@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "sift",
+  "version": "${version}",
+  "name": "SIFT Dimension: Sculkite Expansion",
+  "description": "Explore Sift and its three biomes, mine Sculkite stronger than Netherite, craft enchanted weapons and armor, and enter the Ancient City portal.",
+  "authors": [
+    "Sift Fan Project"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.example.sift.SiftMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
