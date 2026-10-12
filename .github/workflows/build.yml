@@ -1,0 +1,45 @@
+
+name: Build SIFT DIMENSION v2.0 Compact
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Build Minecraft Mod
+        run: gradle --no-daemon clean build
+
+      - name: Show Build Files
+        run: ls -lah build/libs/
+
+      - name: Upload Finished JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: SIFT-DIMENSION-v2.0
+          path: |
+            build/libs/*.jar
+            !build/libs/*-sources.jar
+            !build/libs/*-dev.jar
+          if-no-files-found: error
